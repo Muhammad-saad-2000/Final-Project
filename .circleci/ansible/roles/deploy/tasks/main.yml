@@ -8,7 +8,7 @@
   become: true
   raw: "tar -xzf artifact.tar.gz"
 
--name: "Install dependencies"
+- name: "Install dependencies"
   become: true
   raw: "npm install"
 
