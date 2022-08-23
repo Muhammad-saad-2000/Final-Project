@@ -4,12 +4,13 @@
   apt:
     upgrade: "yes"
 
-- name: "install dependencies."
+- name: "Extract"
   become: true
-  apt:
-    name: ["nodejs", "npm"]
-    state: latest
-    update_cache: yes
+  raw: "tar -xzf artifact.tar.gz"
+
+-name: "Install dependencies"
+  become: true
+  raw: "npm install"
 
 - name: "pm2 stop default."
   become: true
