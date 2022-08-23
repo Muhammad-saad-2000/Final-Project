@@ -185,7 +185,7 @@ jobs:
       - add_ssh_keys:
           fingerprints: ["7c:53:fe:9b:a2:21:18:44:50:56:47:6b:e0:c6:b7:1f"] #TODO:I need to add ssh keys to the project
       - attach_workspace:
-          at: ~/project
+          at: ~/project/.circleci/ansible/
       - run:
           name: Install dependencies
           command: |
