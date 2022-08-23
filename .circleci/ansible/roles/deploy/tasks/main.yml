@@ -4,6 +4,12 @@
   apt:
     upgrade: "yes"
 
+- name: "Copy the artifacts to the web server."
+  copy:
+    src: artifact.tar.gz
+    dest: ./artifact.tar.gz
+    backup: yes
+
 - name: "Extract"
   become: true
   raw: "tar -xzf artifact.tar.gz"
