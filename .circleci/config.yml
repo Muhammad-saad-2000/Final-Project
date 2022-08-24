@@ -281,16 +281,15 @@ jobs:
 
   smoke-test:
     docker:
-      - image: alpine:latest
+      - image: amazon/aws-cli
     steps:
       - checkout
       - run:
-          name: Install dependencies
-          command: |
-            apk add --update curl
-      - run:
           name: Get backend url
           command: |
+            export BACKEND_IP=$(aws ec2 describe-instances \
+            --query 'Reservations[*].Instances[*].PublicIpAddress' \
+            --output text)
             export API_URL="http://${BACKEND_IP}:3030"
             echo "${API_URL}"
       - run:
@@ -313,6 +312,8 @@ jobs:
             else
               return 1
             fi
+      - destroy-environment:
+          workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
 
   cloudfront-update:
     docker:
