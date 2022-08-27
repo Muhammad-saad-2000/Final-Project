@@ -14,25 +14,10 @@
   become: true
   raw: "tar -xzf artifact.tar.gz"
 
-  # - name: "Env file"
-  # become: true
-  # raw: |
-  #   echo "NODE_ENV=local
-  #   VERSION=1
-  #   TYPEORM_CONNECTION=$TYPEORM_CONNECTION
-  #   TYPEORM_MIGRATIONS_DIR=$TYPEORM_MIGRATIONS_DIR
-  #   TYPEORM_ENTITIES=$TYPEORM_ENTITIES
-  #   TYPEORM_MIGRATIONS=$TYPEORM_MIGRATIONS
-  #   TYPEORM_HOST=$TYPEORM_HOST
-  #   TYPEORM_PORT=$TYPEORM_PORT
-  #   TYPEORM_USERNAME=$TYPEORM_USERNAME
-  #   TYPEORM_PASSWORD=$TYPEORM_PASSWORD
-  #   TYPEORM_DATABASE=$TYPEORM_DATABASE" > .env
-
 - name: "Install dependencies"
   become: true
   raw: "npm install"
 
 - name: "pm2 start npm -- start."
   become: true
-  raw: pm2 start npm -- start
+  shell: pm2 start npm -- start
