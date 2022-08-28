@@ -14,7 +14,7 @@ commands:
             echo "Destroying environment: << parameters.workflow_id >> "
             aws s3 rm s3://udapeople-<< parameters.workflow_id >> --recursive
             aws s3api  delete-bucket --bucket udapeople-<< parameters.workflow_id >>
-            # aws cloudformation delete-stack --stack-name udapeople-backend-<< parameters.workflow_id >>
+            aws cloudformation delete-stack --stack-name udapeople-backend-<< parameters.workflow_id >>
             aws cloudformation delete-stack --stack-name udapeople-frontend-<< parameters.workflow_id >>
 
   revert-migrations:
@@ -307,6 +307,7 @@ jobs:
             export API_URL="http://${BACKEND_IP}:3030"
             echo "${API_URL}"
             echo "${API_URL}/api/status"
+            sleep 1m
             if curl "${API_URL}/api/status" | grep "ok"
             then 
                 exit 0
