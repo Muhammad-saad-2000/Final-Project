@@ -273,7 +273,6 @@ jobs:
             npm i 
             npm run build 
             echo "
-            NODE_ENV=$NODE_ENV
             VERSION=$VERSION
             TYPEORM_CONNECTION=$TYPEORM_CONNECTION
             TYPEORM_MIGRATIONS_DIR=$TYPEORM_MIGRATIONS_DIR
