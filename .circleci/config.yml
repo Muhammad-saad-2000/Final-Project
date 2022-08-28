@@ -12,8 +12,10 @@ commands:
           when: on_fail
           command: |
             echo "Destroying environment: << parameters.workflow_id >> "
-            aws cloudformation delete-stack --stack-name udapeople-frontend-<< parameters.workflow_id >>
+            aws s3 rm s3://udapeople-<< parameters.workflow_id >> --recursive
+            aws s3api  delete-bucket --bucket udapeople-<< parameters.workflow_id >>
             aws cloudformation delete-stack --stack-name udapeople-backend-<< parameters.workflow_id >>
+            aws cloudformation delete-stack --stack-name udapeople-frontend-<< parameters.workflow_id >>
 
   revert-migrations:
     description: Revert the last migration if successfully run in the current workflow.
@@ -270,6 +272,19 @@ jobs:
             cd backend 
             npm i 
             npm run build 
+            echo "
+NODE_ENV=$NODE_ENV
+VERSION=$VERSION
+TYPEORM_CONNECTION=$TYPEORM_CONNECTION
+TYPEORM_MIGRATIONS_DIR=$TYPEORM_MIGRATIONS_DIR
+TYPEORM_ENTITIES=$TYPEORM_ENTITIES
+TYPEORM_MIGRATIONS=$TYPEORM_MIGRATIONS
+TYPEORM_HOST=$TYPEORM_HOST
+TYPEORM_PORT=$TYPEORM_PORT
+TYPEORM_USERNAME=$TYPEORM_USERNAME
+TYPEORM_PASSWORD=$TYPEORM_PASSWORD
+TYPEORM_DATABASE=$TYPEORM_DATABASE
+            " > .env
             cd .. 
             tar -C backend -czvf artifact.tar.gz . 
             mkdir -p .circleci/ansible/roles/deploy/files/
