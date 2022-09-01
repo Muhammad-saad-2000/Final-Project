@@ -25,13 +25,14 @@ commands:
     steps:
       - run:
           name: Revert migrations
+          when: on_fail
           command: |
             SUCCESS=$(curl --insecure  https://kvdb.io/6Vn9Lh93TJcUXBFmW6Toor/migration_<< parameters.workflow_id >>)
             if(( $SUCCESS==1 ))
             then 
               cd ~/project/backend 
               npm install 
-              npm run migration:revert
+              npm run migrations:revert
             fi
 
 jobs:
@@ -300,6 +301,13 @@ jobs:
       - image: amazon/aws-cli
     steps:
       - checkout
+      - run:
+          name: Install dependencies
+          command: |
+            yum install -y tar gzip
+            yum install -y git
+            curl --silent --location https://rpm.nodesource.com/setup_lts.x | bash -
+            yum -y install nodejs
       - run:
           name: Backend smoke test.
           command: |
